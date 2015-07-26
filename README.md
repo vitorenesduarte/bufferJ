@@ -38,8 +38,8 @@ for (Service service : services) {
 #### GET /profiles/:id/schedules
 
 ```java
-List<Schedule> schedules0 = buffer.getSchedules(profile);
-List<Schedule> schedules1 = buffer.getSchedules("someProfileID");
+List<Schedule> schedules0 = buffer.getSchedules("someProfileID");
+List<Schedule> schedules1 = buffer.getSchedules(profile);
 List<Schedule> schedules2 = buffer.getSchedules(Service.LINKEDIN);
 ```
 
@@ -52,16 +52,20 @@ Update update = buffer.getUpdate("someUpdateID");
 
 #### GET /profiles/:id/updates/pending
 ```java
-Updates updates0 = buffer.getPendingUpdates(profile);
-Updates updates1 = buffer.getPendingUpdates("someProfileID");
+Updates updates0 = buffer.getPendingUpdates("someProfileID");
+Updates updates1 = buffer.getPendingUpdates(profile);
 Updates updates2 = buffer.getPendingUpdates(Service.LINKEDIN);
  ```
 
 #### GET /profiles/:id/updates/sent
 ```java
-Updates updates0 = buffer.getSentUpdates(profile);
-Updates updates1 = buffer.getSentUpdates("someProfileID");
+Updates updates0 = buffer.getSentUpdates("someProfileID");
+Updates updates1 = buffer.getSentUpdates(profile);
 Updates updates2 = buffer.getSentUpdates(Service.LINKEDIN);
  ```
 
-
+#### GET /updates/:id/interactions
+```java
+Interactions interactions0 = buffer.getUpdateInteractions("someUpdateID");
+Interactions interactions1 = buffer.getUpdateInteractions(update);
+```

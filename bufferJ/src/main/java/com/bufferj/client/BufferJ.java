@@ -1,5 +1,6 @@
 package com.bufferj.client;
 
+import com.bufferj.entity.Interactions;
 import com.bufferj.util.JsonManager;
 import com.bufferj.util.HttpClient;
 import com.bufferj.entity.Profile;
@@ -107,12 +108,12 @@ public class BufferJ {
         return services;
     }
 
-    public List<Schedule> getSchedules(Profile profile) throws IOException, BufferJException {
-        if (profile == null || profile.getId() == null) {
+    public List<Schedule> getSchedules(String profileId) throws IOException, BufferJException {
+        if (profileId == null) {
             return null;
         }
 
-        URI uri = createUri("profiles/" + profile.getId() + "/schedules");
+        URI uri = createUri("profiles/" + profileId + "/schedules");
 
         String response = HttpClient.getInstance().get(uri);
         Object result = JsonManager.fromJson(response, scheduleListType);
@@ -122,9 +123,12 @@ public class BufferJ {
         return (List<Schedule>) result;
     }
 
-    public List<Schedule> getSchedules(String profileId) throws IOException, BufferJException {
-        Profile profile = getProfile(profileId);
-        return getSchedules(profile);
+    public List<Schedule> getSchedules(Profile profile) throws IOException, BufferJException {
+        if (profile == null || profile.getId() == null) {
+            return null;
+        }
+
+        return getSchedules(profile.getId());
     }
 
     public List<Schedule> getSchedules(Service service) throws IOException, BufferJException {
@@ -157,17 +161,20 @@ public class BufferJ {
         return (Updates) result;
     }
 
+    public Updates getPendingUpdates(String profileId) throws IOException, BufferJException {
+        if (profileId == null) {
+            return null;
+        }
+
+        URI uri = createUri("profiles/" + profileId + "/updates/pending");
+        return getUpdates(uri);
+    }
+
     public Updates getPendingUpdates(Profile profile) throws IOException, BufferJException {
         if (profile == null || profile.getId() == null) {
             return null;
         }
 
-        URI uri = createUri("profiles/" + profile.getId() + "/updates/pending");
-        return getUpdates(uri);
-    }
-
-    public Updates getPendingUpdates(String profileId) throws IOException, BufferJException {
-        Profile profile = getProfile(profileId);
         return getPendingUpdates(profile);
     }
 
@@ -176,17 +183,20 @@ public class BufferJ {
         return getPendingUpdates(profile);
     }
 
+    public Updates getSentUpdates(String profileId) throws IOException, BufferJException {
+        if (profileId == null) {
+            return null;
+        }
+
+        URI uri = createUri("profiles/" + profileId + "/updates/sent");
+        return getUpdates(uri);
+    }
+
     public Updates getSentUpdates(Profile profile) throws IOException, BufferJException {
         if (profile == null || profile.getId() == null) {
             return null;
         }
 
-        URI uri = createUri("profiles/" + profile.getId() + "/updates/sent");
-        return getUpdates(uri);
-    }
-
-    public Updates getSentUpdates(String profileId) throws IOException, BufferJException {
-        Profile profile = getProfile(profileId);
         return getSentUpdates(profile);
     }
 
@@ -195,9 +205,32 @@ public class BufferJ {
         return getSentUpdates(profile);
     }
 
+    public Interactions getUpdateInteractions(String updateId) throws IOException, BufferJException {
+        if (updateId == null) {
+            return null;
+        }
+
+        URI uri = createUri("updates/" + updateId + "/interactions");
+
+        String response = HttpClient.getInstance().get(uri);
+        Object result = JsonManager.fromJson(response, Interactions.class);
+
+        dealWithError(result);
+
+        return (Interactions) result;
+    }
+
+    public Interactions getUpdateInteractions(Update update) throws IOException, BufferJException {
+        if (update == null || update.getId() == null) {
+            return null;
+        }
+
+        return getUpdateInteractions(update.getId());
+    }
+
     private URI createUri(String path) {
         URI uri = null;
-        
+
         try {
             uri = new URIBuilder()
                     .setScheme(scheme)
@@ -210,8 +243,6 @@ public class BufferJ {
             logger.log(Level.SEVERE, null, ex);
         }
 
-        System.out.println(uri.toString());
-        
         return uri;
     }
 
