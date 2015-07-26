@@ -1,4 +1,4 @@
-package com.bufferj.client;
+package com.bufferj.client.util;
 
 import java.util.HashMap;
 import java.util.Map;

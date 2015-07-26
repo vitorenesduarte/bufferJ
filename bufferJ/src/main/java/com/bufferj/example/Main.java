@@ -2,7 +2,7 @@ package com.bufferj.example;
 
 import com.bufferj.client.BufferJ;
 import com.bufferj.client.BufferJException;
-import com.bufferj.client.Service;
+import com.bufferj.client.util.Service;
 import com.bufferj.client.util.CreateOrEditUpdates;
 import com.bufferj.entity.Day;
 import com.bufferj.entity.Interactions;

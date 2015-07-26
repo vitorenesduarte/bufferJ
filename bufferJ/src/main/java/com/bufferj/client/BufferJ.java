@@ -1,5 +1,6 @@
 package com.bufferj.client;
 
+import com.bufferj.client.util.Service;
 import com.bufferj.client.util.CreateOrEditUpdates;
 import com.bufferj.entity.Interactions;
 import com.bufferj.util.JsonManager;
