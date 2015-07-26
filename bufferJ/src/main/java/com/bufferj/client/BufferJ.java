@@ -5,7 +5,10 @@ import com.bufferj.util.HttpClient;
 import com.bufferj.entity.Profile;
 import com.bufferj.entity.Schedule;
 import com.bufferj.entity.Error;
+import com.bufferj.entity.Update;
+import com.bufferj.entity.Updates;
 import com.google.gson.reflect.TypeToken;
+import com.sun.org.apache.xerces.internal.util.HTTPInputSource;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -50,13 +53,17 @@ public class BufferJ {
     }
 
     public Profile getProfile(String profileId) throws IOException, BufferJException {
+        if (profileId == null) {
+            return null;
+        }
+
         URI uri = createUri("profiles/" + profileId);
 
         String response = HttpClient.getInstance().get(uri);
         Object result = JsonManager.fromJson(response, Profile.class);
 
         dealWithError(result);
-        
+
         return (Profile) result;
     }
 
@@ -89,6 +96,10 @@ public class BufferJ {
     }
 
     public List<Schedule> getSchedules(Profile profile) throws IOException, BufferJException {
+        if (profile == null || profile.getId() == null) {
+            return null;
+        }
+
         URI uri = createUri("profiles/" + profile.getId() + "/schedules");
 
         String response = HttpClient.getInstance().get(uri);
@@ -109,19 +120,67 @@ public class BufferJ {
         return getSchedules(profile);
     }
 
-    // POST /profiles/:id/schedules/update
-    public String getSentUpdates(Profile profile) throws IOException {
-        URI uri = createUri("profiles/" + profile.getId() + "/updates/sent");
+    // TODO POST /profiles/:id/schedules/update
+    private Update getUpdate(String updateId) throws IOException, BufferJException {
+        if (updateId == null) {
+            return null;
+        }
+
+        URI uri = createUri("updates/" + updateId);
 
         String response = HttpClient.getInstance().get(uri);
+        Object result = JsonManager.fromJson(response, Update.class);
 
-        return response;
+        dealWithError(result);
+
+        return (Update) result;
     }
 
-    public String getSentUpdates(Service service) throws IOException {
-        Profile profile = getProfile(service);
+    private Updates getUpdates(URI uri) throws IOException, BufferJException {
+        String response = HttpClient.getInstance().get(uri);
+        Object result = JsonManager.fromJson(response, Updates.class);
 
-        return profile != null ? getSentUpdates(profile) : null;
+        dealWithError(result);
+
+        return (Updates) result;
+    }
+
+    public Updates getPendingUpdates(Profile profile) throws IOException, BufferJException {
+        if (profile == null || profile.getId() == null) {
+            return null;
+        }
+
+        URI uri = createUri("profiles/" + profile.getId() + "/updates/pending");
+        return getUpdates(uri);
+    }
+
+    public Updates getPendingUpdates(String profileId) throws IOException, BufferJException {
+        Profile profile = getProfile(profileId);
+        return getPendingUpdates(profile);
+    }
+
+    public Updates getPendingUpdates(Service service) throws IOException, BufferJException {
+        Profile profile = getProfile(service);
+        return getPendingUpdates(profile);
+    }
+
+    public Updates getSentUpdates(Profile profile) throws IOException, BufferJException {
+        if (profile == null || profile.getId() == null) {
+            return null;
+        }
+
+        URI uri = createUri("profiles/" + profile.getId() + "/updates/sent");
+        return getUpdates(uri);
+    }
+
+    public Updates getSentUpdates(String profileId) throws IOException, BufferJException {
+        Profile profile = getProfile(profileId);
+        return getSentUpdates(profile);
+    }
+
+    public Updates getSentUpdates(Service service) throws IOException, BufferJException {
+        Profile profile = getProfile(service);
+        return getSentUpdates(profile);
     }
 
     private URI createUri(String path) {

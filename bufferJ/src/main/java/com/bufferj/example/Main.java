@@ -5,6 +5,7 @@ import com.bufferj.client.BufferJException;
 import com.bufferj.client.Service;
 import com.bufferj.entity.Profile;
 import com.bufferj.entity.Schedule;
+import com.bufferj.entity.Updates;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Main {
             System.out.println(schedules);
 
             for (Service service : services) {
-                String sentUpdates = buffer.getSentUpdates(service);
+                Updates sentUpdates = buffer.getSentUpdates(service);
                 System.out.println(sentUpdates);
             }
 
