@@ -26,4 +26,9 @@ public class Interactions {
     public void setInteractions(List<Interaction> interactions) {
         this.interactions = interactions;
     }
+
+    @Override
+    public String toString() {
+        return "Interactions{" + "total=" + total + ", interactions=" + interactions + '}';
+    }
 }

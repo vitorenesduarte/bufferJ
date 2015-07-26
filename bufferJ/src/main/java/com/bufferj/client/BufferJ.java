@@ -8,6 +8,7 @@ import com.bufferj.util.HttpClient;
 import com.bufferj.entity.Profile;
 import com.bufferj.entity.Schedule;
 import com.bufferj.client.util.Error;
+import com.bufferj.client.util.Event;
 import com.bufferj.client.util.ResponseWithUpdate;
 import com.bufferj.client.util.ResponseWithUpdates;
 import com.bufferj.entity.Update;
@@ -234,13 +235,13 @@ public class BufferJ {
         return (Update) result;
     }
 
-    public Interactions getInteractions(String updateId) throws IOException, BufferJException {
-        if (updateId == null) {
+    public Interactions getInteractions(String updateId, Event event) throws IOException, BufferJException {
+        if (updateId == null || event == null) {
             return null;
         }
 
-        URI uri = createUri("updates/" + updateId + "/interactions");
-
+        URI uri = createUri("updates/" + updateId + "/interactions", "event", event.getName());
+        
         String response = HttpClient.getInstance().get(uri);
         Object result = JsonManager.fromJson(response, Interactions.class);
 
@@ -249,12 +250,12 @@ public class BufferJ {
         return (Interactions) result;
     }
 
-    public Interactions getInteractions(Update update) throws IOException, BufferJException {
+    public Interactions getInteractions(Update update, Event event) throws IOException, BufferJException {
         if (update == null || update.getId() == null) {
             return null;
         }
 
-        return getInteractions(update.getId());
+        return getInteractions(update.getId(), event);
     }
 
     public List<Update> createUpdates(CreateOrEditUpdates updates) throws IOException, BufferJException {
@@ -285,16 +286,40 @@ public class BufferJ {
         return ((ResponseWithUpdate) result).getUpdate();
     }
 
-    private URI createUri(String path) {
+    public void share(String updateId) throws IOException {
+        if (updateId == null) {
+            return;
+        }
+
+        URI uri = createUri("updates/" + updateId + "/share");
+        HttpClient.getInstance().post(uri);
+    }
+
+    public void share(Update update) throws IOException {
+        if (update == null || update.getId() == null) {
+            return;
+        }
+
+        share(update.getId());
+    }
+
+    private URI createUri(String path, String... params) {
         URI uri = null;
 
         try {
-            uri = new URIBuilder()
+            URIBuilder uriBuilder = new URIBuilder()
                     .setScheme(scheme)
                     .setHost(apiEndpoint)
                     .setPath("/" + apiVersion + "/" + path + "." + responseFormat)
-                    .setParameter("access_token", accessToken)
-                    .build();
+                    .setParameter("access_token", accessToken);
+
+            for (int i = 0; i < params.length; i++) {
+                if (i + 1 < params.length) {
+                    uriBuilder.setParameter(params[i], params[++i]);
+                }
+            }
+
+            uri = uriBuilder.build();
 
         } catch (URISyntaxException ex) {
             logger.log(Level.SEVERE, null, ex);

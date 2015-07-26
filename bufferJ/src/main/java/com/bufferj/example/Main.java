@@ -4,6 +4,7 @@ import com.bufferj.client.BufferJ;
 import com.bufferj.client.BufferJException;
 import com.bufferj.client.util.Service;
 import com.bufferj.client.util.CreateOrEditUpdates;
+import com.bufferj.client.util.Event;
 import com.bufferj.entity.Day;
 import com.bufferj.entity.Interactions;
 import com.bufferj.entity.Profile;
@@ -51,7 +52,7 @@ public class Main {
 
             CreateOrEditUpdates createUpdates = new CreateOrEditUpdates();
             createUpdates.addProfile(profiles.get(0));
-            createUpdates.setText("hello world7");
+            createUpdates.setText("hello world!!");
 
             List<Update> updatesCreated = buffer.createUpdates(createUpdates);
             for (int i = 0; i < updatesCreated.size(); i++) {
@@ -71,7 +72,8 @@ public class Main {
                 System.out.println(sentUpdates);
 
                 for (Update update : sentUpdates.getUpdates()) {
-                    Interactions interactions = buffer.getInteractions(update);
+                    Interactions interactions = buffer.getInteractions(update, Event.COMMENTS);
+                    System.out.println(interactions);
                 }
             }
 

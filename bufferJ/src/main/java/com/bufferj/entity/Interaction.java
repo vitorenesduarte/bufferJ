@@ -83,4 +83,9 @@ public class Interaction {
         private String avatar;
         private String twitter_id;
     }
+
+    @Override
+    public String toString() {
+        return "Interaction{" + "id=" + id + ", createdAt=" + createdAt + ", event=" + event + ", interactionId=" + interactionId + ", username=" + user.username + ", followers=" + user.followers + ", avatar=" + user.avatar + ", twitterId=" + user.twitter_id + '}';
+    }
 }

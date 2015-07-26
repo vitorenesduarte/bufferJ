@@ -92,3 +92,9 @@ for (int i = 0; i < updatesCreated.size(); i++) {
     buffer.editUpdate(updatesCreated.get(i).getId(), editUpdate);
 }
 ```
+
+#### POST /updates/:id/share
+```java
+buffer.share("someUpdateID");
+buffer.share(update);
+```

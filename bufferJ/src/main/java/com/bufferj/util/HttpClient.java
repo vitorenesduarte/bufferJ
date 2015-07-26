@@ -40,6 +40,12 @@ public class HttpClient {
         return execute(httpGet);
     }
 
+    public String post(URI uri) throws IOException {
+        HttpPost httpPost = new HttpPost(uri);
+
+        return execute(httpPost);
+    }
+
     public String post(URI uri, List<NameValuePair> formData) throws IOException {
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formData, encoding);
         HttpPost httpPost = new HttpPost(uri);
