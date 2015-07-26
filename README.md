@@ -75,12 +75,12 @@ Update update = buffer.getUpdate("someUpdateID");
 #### GET /updates/:id/interactions
 ```java
 enum Event {
+
     FAVORITES("favorites"),
     MENTIONS("mentions"),
     RETWEETS("retweets"),
     LIKES("likes"),
     COMMENTS("comments");
-
 }
 ```
 
