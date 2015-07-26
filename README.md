@@ -1,14 +1,5 @@
-# bufferJ
+# BufferJ
 BufferJ is a Java Wrapper for the [Buffer API](https://buffer.com/developers/api).
-
-```java
-enum Service {
-
-    TWITTER("twitter"),
-    FACEBOOK("facebook"),
-    LINKEDIN("linkedin");
-}
-```
 
 ## Buffer API
 
@@ -23,6 +14,15 @@ List<Profile> profiles = buffer.getProfiles();
 
 ```java
 Profile profile = buffer.getProfile("someProfileID");
+```
+
+```java
+enum Service {
+
+    TWITTER("twitter"),
+    FACEBOOK("facebook"),
+    LINKEDIN("linkedin");
+}
 ```
 
 It is also possible to use the enum presented above to find a profile given its service.
