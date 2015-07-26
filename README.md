@@ -1,5 +1,5 @@
 # bufferJ
-BufferJ is a Java Wrapper for the Buffer API
+BufferJ is a Java Wrapper for the [Buffer API](https://buffer.com/developers/api).
 
 ```java
 enum Service {
@@ -10,16 +10,16 @@ enum Service {
 }
 ```
 
-Buffer API
+## Buffer API
 
-### GET /profiles
+#### GET /profiles
 
 ```java
 BufferJ buffer = new BufferJ("someAccessToken");
 List<Profile> profiles = buffer.getProfiles();
 ``` 
 
-### GET /profiles/:id
+#### GET /profiles/:id
 
 ```java
 Profile profile = buffer.getProfile("someProfileID");
@@ -35,7 +35,7 @@ for (Service service : services) {
 }
 ```
 
-### GET /profiles/:id/schedules
+#### GET /profiles/:id/schedules
 
 ```java
  List<Schedule> schedules0 = buffer.getSchedules(profile);
