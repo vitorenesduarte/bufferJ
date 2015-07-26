@@ -8,6 +8,8 @@ package com.bufferj.client;
 import com.bufferj.util.JsonManager;
 import com.bufferj.util.HttpClient;
 import com.bufferj.entity.Profile;
+import com.bufferj.entity.Schedule;
+import com.bufferj.entity.Error;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -31,8 +33,10 @@ public class BufferJ {
     private static final String apiEndpoint = "api.bufferapp.com";
     private static final String apiVersion = "1";
     private static final String responseFormat = "json";
-    
+
     private static final Type profileListType = new TypeToken<List<Profile>>() {
+    }.getType();
+    private static final Type scheduleListType = new TypeToken<List<Schedule>>() {
     }.getType();
 
     private final String accessToken;
@@ -43,86 +47,88 @@ public class BufferJ {
 
     public List<Profile> getProfiles() throws IOException {
         URI uri = createUri("profiles");
-        
+
         String response = HttpClient.getInstance().get(uri);
-        List<Profile> profiles = JsonManager.fromJson(response, profileListType);
-        
+        List<Profile> profiles = (List<Profile>) JsonManager.fromJson(response, profileListType);
+
         return profiles;
     }
-    
-    public Profile getProfile(String profileId) throws IOException{
+
+    public Profile getProfile(String profileId) throws IOException, BufferJException {
         URI uri = createUri("profiles/" + profileId);
-        
+
         String response = HttpClient.getInstance().get(uri);
-        Profile profile = JsonManager.fromJson(response, Profile.class);
+        Object result = JsonManager.fromJson(response, Profile.class);
+
+        dealWithError(result);
         
-        return profile;
+        return (Profile) result;
     }
-    
+
     public Profile getProfile(Service service) throws IOException {
         List<Profile> profiles = getProfiles();
-        
-        for(Profile profile : profiles){
-            Service profileService = Service.getService(profile.getService());
-            
-            if(profileService.equals(service)){
+
+        for (Profile profile : profiles) {
+            if (profile.getService().equals(service.getName())) {
                 return profile;
             }
         }
-        
+
         return null;
     }
-    
-    public List<Service> getRegisteredServices() throws IOException{
+
+    public List<Service> getRegisteredServices() throws IOException {
         List<Profile> profiles = getProfiles();
-        
-        if(profiles == null || profiles.isEmpty()){
+
+        if (profiles == null || profiles.isEmpty()) {
             return null;
         }
-        
+
         List<Service> services = new ArrayList<>();
-        for(Profile profile : profiles){
+        for (Profile profile : profiles) {
             Service service = Service.getService(profile.getService());
-                services.add(service);
+            services.add(service);
         }
-        
+
         return services;
     }
-    
-    public String getSchedules(Profile profile) throws IOException{
+
+    public List<Schedule> getSchedules(Profile profile) throws IOException, BufferJException {
         URI uri = createUri("profiles/" + profile.getId() + "/schedules");
-        
+
         String response = HttpClient.getInstance().get(uri);
-        
-        return response;
+        Object result = JsonManager.fromJson(response, scheduleListType);
+
+        dealWithError(result);
+
+        return (List<Schedule>) result;
     }
-    
-    public String getSchedules(String profileId) throws IOException{
+
+    public List<Schedule> getSchedules(String profileId) throws IOException, BufferJException {
         Profile profile = getProfile(profileId);
         return getSchedules(profile);
     }
-    
-    public String getSchedules(Service service) throws IOException{
+
+    public List<Schedule> getSchedules(Service service) throws IOException, BufferJException {
         Profile profile = getProfile(service);
         return getSchedules(profile);
     }
-    
+
     // POST /profiles/:id/schedules/update
-    
     public String getSentUpdates(Profile profile) throws IOException {
         URI uri = createUri("profiles/" + profile.getId() + "/updates/sent");
-        
+
         String response = HttpClient.getInstance().get(uri);
 
         return response;
     }
 
-    public String getSentUpdates(Service service) throws IOException{
+    public String getSentUpdates(Service service) throws IOException {
         Profile profile = getProfile(service);
-        
+
         return profile != null ? getSentUpdates(profile) : null;
     }
-    
+
     private URI createUri(String path) {
         URI uri = null;
 
@@ -139,5 +145,11 @@ public class BufferJ {
         }
 
         return uri;
+    }
+
+    private void dealWithError(Object result) throws BufferJException {
+        if (result instanceof Error) {
+            throw new BufferJException(JsonManager.toJson(result));
+        }
     }
 }

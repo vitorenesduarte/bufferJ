@@ -24,8 +24,6 @@ public class HttpClient {
     }
 
     public String get(URI uri) throws IOException {
-        System.out.println(uri.toString());
-        
         HttpGet httpGet = new HttpGet(uri);
 
         try (CloseableHttpResponse response = client.execute(httpGet)) {
@@ -33,7 +31,6 @@ public class HttpClient {
             StringWriter writer = new StringWriter();
             IOUtils.copy(response.getEntity().getContent(), writer, encoding);
 
-            System.out.println("HC: " + writer.toString());
             return writer.toString();
         }
     }

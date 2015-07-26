@@ -2,6 +2,7 @@ package com.bufferj.util;
 
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
+import com.bufferj.entity.Error;
 
 /**
  *
@@ -11,11 +12,32 @@ public class JsonManager {
 
     private static final Gson gson = new Gson();
 
-    public static <T extends Object> T fromJson(String json, Class<T> clazz) {
-        return gson.fromJson(json, clazz);
+    public static String toJson(Object object) {
+        return gson.toJson(object);
     }
-    
-    public static <T extends Object> T fromJson(String json, Type type) {
-        return gson.fromJson(json, type);
+
+    public static Object fromJson(String json, Class<?> clazz) {
+        Error error = getError(json);
+        return error == null ? gson.fromJson(json, clazz) : error;
+    }
+
+    public static Object fromJson(String json, Type type) {
+        Error error = getError(json);
+        return error == null ? gson.fromJson(json, type) : error;
+    }
+
+    private static Error getError(String json) {
+        Error error;
+        try {
+            error = gson.fromJson(json, Error.class);
+        } catch (Exception e) {
+            error = null;
+        }
+
+        return isValidError(error) ? error : null;
+    }
+
+    private static Boolean isValidError(Error error) {
+        return error != null && error.getCode() != null && error.getCode() != null;
     }
 }
