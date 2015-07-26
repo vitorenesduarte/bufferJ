@@ -6,10 +6,7 @@ import com.bufferj.client.Service;
 import com.bufferj.entity.Profile;
 import com.bufferj.entity.Schedule;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

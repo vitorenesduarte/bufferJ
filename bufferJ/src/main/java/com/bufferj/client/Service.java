@@ -1,6 +1,5 @@
 package com.bufferj.client;
 
-import static java.lang.Character.UnicodeScript.UNKNOWN;
 import java.util.HashMap;
 import java.util.Map;
 
