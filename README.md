@@ -53,11 +53,6 @@ for (Schedule schedule : schedules0) {
 buffer.updateSchedules(Service.LINKEDIN, schedules0);
 ```
 
-#### GET /updates/:id
-```java
-Update update = buffer.getUpdate("someUpdateID");
-```
-
 #### GET /profiles/:id/updates/pending
 ```java
 Updates updates0 = buffer.getPendingUpdates("someProfileID");
@@ -72,8 +67,27 @@ Updates updates1 = buffer.getSentUpdates(profile);
 Updates updates2 = buffer.getSentUpdates(Service.LINKEDIN);
  ```
 
+#### GET /updates/:id
+```java
+Update update = buffer.getUpdate("someUpdateID");
+```
+
 #### GET /updates/:id/interactions
 ```java
 Interactions interactions0 = buffer.getInteractions("someUpdateID");
 Interactions interactions1 = buffer.getInteractions(update);
+```
+
+#### POST /updates/create & POST /updates/:id/update
+```java
+CreateOrEditUpdates createUpdates = new CreateOrEditUpdates();
+createUpdates.addProfile(profile);
+createUpdates.setText("hello world");
+List<Update> updatesCreated = buffer.createUpdates(createUpdates);
+
+for (int i = 0; i < updatesCreated.size(); i++) {
+    CreateOrEditUpdates editUpdate = new CreateOrEditUpdates();
+    editUpdate.setText("shangri la " + i);
+    buffer.editUpdate(updatesCreated.get(i).getId(), editUpdate);
+}
 ```

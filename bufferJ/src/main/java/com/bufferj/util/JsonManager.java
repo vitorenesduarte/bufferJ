@@ -2,7 +2,7 @@ package com.bufferj.util;
 
 import com.google.gson.Gson;
 import java.lang.reflect.Type;
-import com.bufferj.entity.Error;
+import com.bufferj.client.util.Error;
 
 /**
  *

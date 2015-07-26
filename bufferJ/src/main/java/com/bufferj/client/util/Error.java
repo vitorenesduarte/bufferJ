@@ -1,4 +1,4 @@
-package com.bufferj.entity;
+package com.bufferj.client.util;
 
 /**
  *
@@ -6,16 +6,7 @@ package com.bufferj.entity;
  */
 public class Error {
 
-    private String error;
     private Long code;
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
 
     public Long getCode() {
         return code;

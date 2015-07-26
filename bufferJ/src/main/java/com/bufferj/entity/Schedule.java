@@ -1,5 +1,7 @@
 package com.bufferj.entity;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +19,10 @@ public class Schedule {
     }
 
     public void addDay(Day day) {
+        if(days == null){
+            days = new HashSet<>();
+        }
+        
         this.days.add(day.getName());
     }
 
@@ -25,6 +31,10 @@ public class Schedule {
     }
 
     public void addTime(Integer hour, Integer minute) {
+        if(times == null){
+            times = new ArrayList<>();
+        }
+
         if (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59) {
             String time = toString(hour) + ":" + toString(minute);
             this.times.add(time);

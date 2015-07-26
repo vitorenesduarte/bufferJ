@@ -1,11 +1,14 @@
 package com.bufferj.client;
 
+import com.bufferj.client.util.CreateOrEditUpdates;
 import com.bufferj.entity.Interactions;
 import com.bufferj.util.JsonManager;
 import com.bufferj.util.HttpClient;
 import com.bufferj.entity.Profile;
 import com.bufferj.entity.Schedule;
-import com.bufferj.entity.Error;
+import com.bufferj.client.util.Error;
+import com.bufferj.client.util.ResponseWithUpdate;
+import com.bufferj.client.util.ResponseWithUpdates;
 import com.bufferj.entity.Update;
 import com.bufferj.entity.Updates;
 import com.bufferj.entity.User;
@@ -162,21 +165,6 @@ public class BufferJ {
         updateSchedules(profile, schedules);
     }
 
-    private Update getUpdate(String updateId) throws IOException, BufferJException {
-        if (updateId == null) {
-            return null;
-        }
-
-        URI uri = createUri("updates/" + updateId);
-
-        String response = HttpClient.getInstance().get(uri);
-        Object result = JsonManager.fromJson(response, Update.class);
-
-        dealWithError(result);
-
-        return (Update) result;
-    }
-
     private Updates getUpdates(URI uri) throws IOException, BufferJException {
         String response = HttpClient.getInstance().get(uri);
         Object result = JsonManager.fromJson(response, Updates.class);
@@ -230,6 +218,21 @@ public class BufferJ {
         return getSentUpdates(profile);
     }
 
+    public Update getUpdate(String updateId) throws IOException, BufferJException {
+        if (updateId == null) {
+            return null;
+        }
+
+        URI uri = createUri("updates/" + updateId);
+
+        String response = HttpClient.getInstance().get(uri);
+        Object result = JsonManager.fromJson(response, Update.class);
+
+        dealWithError(result);
+
+        return (Update) result;
+    }
+
     public Interactions getInteractions(String updateId) throws IOException, BufferJException {
         if (updateId == null) {
             return null;
@@ -251,6 +254,34 @@ public class BufferJ {
         }
 
         return getInteractions(update.getId());
+    }
+
+    public List<Update> createUpdates(CreateOrEditUpdates updates) throws IOException, BufferJException {
+        URI uri = createUri("updates/create");
+        List<NameValuePair> formData = HttpUtil.createFormData(updates);
+
+        String response = HttpClient.getInstance().post(uri, formData);
+        Object result = JsonManager.fromJson(response, ResponseWithUpdates.class);
+
+        dealWithError(result);
+
+        return ((ResponseWithUpdates) result).getUpdates();
+    }
+
+    public Update editUpdate(String updateId, CreateOrEditUpdates update) throws IOException, BufferJException {
+        if (updateId == null) {
+            return null;
+        }
+
+        URI uri = createUri("updates/" + updateId + "/update");
+        List<NameValuePair> formData = HttpUtil.createFormData(update);
+
+        String response = HttpClient.getInstance().post(uri, formData);
+        Object result = JsonManager.fromJson(response, ResponseWithUpdate.class);
+
+        dealWithError(result);
+
+        return ((ResponseWithUpdate) result).getUpdate();
     }
 
     private URI createUri(String path) {
