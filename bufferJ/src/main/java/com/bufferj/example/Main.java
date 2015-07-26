@@ -18,7 +18,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         try {
             BufferJ buffer = new BufferJ("someAccessToken");
-
             List<Profile> profiles = buffer.getProfiles();
 
             List<Service> services = buffer.getRegisteredServices();
@@ -33,6 +32,9 @@ public class Main {
             System.out.println(schedules);
 
             for (Service service : services) {
+                Updates pendingUpdates = buffer.getPendingUpdates(service);
+                System.out.println(pendingUpdates);
+
                 Updates sentUpdates = buffer.getSentUpdates(service);
                 System.out.println(sentUpdates);
             }

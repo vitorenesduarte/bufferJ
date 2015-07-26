@@ -6,7 +6,7 @@ BufferJ is a Java Wrapper for the [Buffer API](https://buffer.com/developers/api
 #### GET /profiles
 
 ```java
-BufferJ buffer = new BufferJ("someAccessToken");
+BufferJ buffer = new BufferJ("yourAccessToken");
 List<Profile> profiles = buffer.getProfiles();
 ``` 
 
@@ -46,7 +46,7 @@ List<Schedule> schedules2 = buffer.getSchedules(Service.LINKEDIN);
 ###### TODO POST /profiles/:id/schedules/update
 
 #### GET /updates/:id
-```ava
+```java
 Update update = buffer.getUpdate("someUpdateID");
 ```
 

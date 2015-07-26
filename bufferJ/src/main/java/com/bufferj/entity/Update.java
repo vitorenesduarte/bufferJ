@@ -105,4 +105,9 @@ public class Update {
     public void setVia(String via) {
         this.via = via;
     }
+
+    @Override
+    public String toString() {
+        return "Update{" + "id=" + id + ", created_at=" + created_at + ", due_at=" + due_at + ", profile_id=" + profile_id + ", profile_service=" + profile_service + ", sent_at=" + sent_at + ", service_update_id=" + service_update_id + ", status=" + status + ", text=" + text + ", user_id=" + user_id + ", via=" + via + '}';
+    }
 }

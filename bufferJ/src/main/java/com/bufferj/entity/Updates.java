@@ -26,4 +26,9 @@ public class Updates {
     public void setUpdates(List<Update> updates) {
         this.updates = updates;
     }
+
+    @Override
+    public String toString() {
+        return "Updates{" + "total=" + total + ", updates=" + updates + '}';
+    }
 }

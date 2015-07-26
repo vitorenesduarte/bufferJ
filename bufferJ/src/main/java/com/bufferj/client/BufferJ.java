@@ -7,8 +7,8 @@ import com.bufferj.entity.Schedule;
 import com.bufferj.entity.Error;
 import com.bufferj.entity.Update;
 import com.bufferj.entity.Updates;
+import com.bufferj.entity.User;
 import com.google.gson.reflect.TypeToken;
-import com.sun.org.apache.xerces.internal.util.HTTPInputSource;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
@@ -39,8 +39,20 @@ public class BufferJ {
 
     private final String accessToken;
 
-    public BufferJ(String accessToken) {
+    public BufferJ(String accessToken) throws IOException, BufferJException {
         this.accessToken = accessToken;
+        getUser();
+    }
+
+    private User getUser() throws IOException, BufferJException {
+        URI uri = createUri("user");
+
+        String response = HttpClient.getInstance().get(uri);
+        Object result = JsonManager.fromJson(response, User.class);
+
+        dealWithError(result);
+
+        return (User) result;
     }
 
     public List<Profile> getProfiles() throws IOException {
@@ -185,7 +197,7 @@ public class BufferJ {
 
     private URI createUri(String path) {
         URI uri = null;
-
+        
         try {
             uri = new URIBuilder()
                     .setScheme(scheme)
@@ -198,6 +210,8 @@ public class BufferJ {
             logger.log(Level.SEVERE, null, ex);
         }
 
+        System.out.println(uri.toString());
+        
         return uri;
     }
 
