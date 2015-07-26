@@ -74,8 +74,19 @@ Update update = buffer.getUpdate("someUpdateID");
 
 #### GET /updates/:id/interactions
 ```java
-Interactions interactions0 = buffer.getInteractions("someUpdateID");
-Interactions interactions1 = buffer.getInteractions(update);
+enum Event {
+    FAVORITES("favorites"),
+    MENTIONS("mentions"),
+    RETWEETS("retweets"),
+    LIKES("likes"),
+    COMMENTS("comments");
+
+}
+```
+
+```java
+Interactions interactions0 = buffer.getInteractions("someUpdateID", Event.COMMENTS);
+Interactions interactions1 = buffer.getInteractions(update, EVENT.RETWEETS);
 ```
 
 #### POST /updates/create & POST /updates/:id/update
