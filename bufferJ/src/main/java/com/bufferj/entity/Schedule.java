@@ -26,8 +26,13 @@ public class Schedule {
 
     public void addTime(Integer hour, Integer minute) {
         if (hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59) {
-            this.times.add(hour + ":" + minute);
+            String time = toString(hour) + ":" + toString(minute);
+            this.times.add(time);
         }
+    }
+    
+    private String toString(Integer time){
+        return (time >= 10 ? "" : "0") + time;
     }
 
     @Override
