@@ -84,6 +84,7 @@ CreateOrEditUpdates createUpdates = new CreateOrEditUpdates();
 createUpdates.addProfile(profile);
 createUpdates.setText("hello world");
 List<Update> updatesCreated = buffer.createUpdates(createUpdates);
+// only one update will be created since we only added one media profile
 
 for (int i = 0; i < updatesCreated.size(); i++) {
     CreateOrEditUpdates editUpdate = new CreateOrEditUpdates();
