@@ -3,6 +3,7 @@ package com.bufferj.example;
 import com.bufferj.client.BufferJ;
 import com.bufferj.client.BufferJException;
 import com.bufferj.client.Service;
+import com.bufferj.entity.Day;
 import com.bufferj.entity.Interactions;
 import com.bufferj.entity.Profile;
 import com.bufferj.entity.Schedule;
@@ -20,6 +21,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         try {
             BufferJ buffer = new BufferJ("someAccessToken");
+
             List<Profile> profiles = buffer.getProfiles();
 
             List<Service> services = buffer.getRegisteredServices();
@@ -33,6 +35,16 @@ public class Main {
             List<Schedule> schedules = buffer.getSchedules(Service.LINKEDIN);
             System.out.println(schedules);
 
+            for (Schedule schedule : schedules) {
+                schedule.addDay(Day.MONDAY);
+                schedule.addTime(8, 15);
+            }
+
+            buffer.updateSchedules(Service.LINKEDIN, schedules);
+
+            schedules = buffer.getSchedules(Service.LINKEDIN);
+            System.out.println(schedules);
+
             for (Service service : services) {
                 Updates pendingUpdates = buffer.getPendingUpdates(service);
                 System.out.println(pendingUpdates);
@@ -41,7 +53,7 @@ public class Main {
                 System.out.println(sentUpdates);
 
                 for (Update update : pendingUpdates.getUpdates()) {
-                    Interactions interactions = buffer.getUpdateInteractions(update);
+                    Interactions interactions = buffer.getInteractions(update);
                 }
             }
 

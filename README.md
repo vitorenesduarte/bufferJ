@@ -43,7 +43,15 @@ List<Schedule> schedules1 = buffer.getSchedules(profile);
 List<Schedule> schedules2 = buffer.getSchedules(Service.LINKEDIN);
 ```
 
-###### TODO POST /profiles/:id/schedules/update
+#### POST /profiles/:id/schedules/update
+```java
+for (Schedule schedule : schedules0) {
+    schedule.addDay(Day.MONDAY);
+    schedule.addTime(8, 15);
+}
+
+buffer.updateSchedules(Service.LINKEDIN, schedules0);
+```
 
 #### GET /updates/:id
 ```java
@@ -66,6 +74,6 @@ Updates updates2 = buffer.getSentUpdates(Service.LINKEDIN);
 
 #### GET /updates/:id/interactions
 ```java
-Interactions interactions0 = buffer.getUpdateInteractions("someUpdateID");
-Interactions interactions1 = buffer.getUpdateInteractions(update);
+Interactions interactions0 = buffer.getInteractions("someUpdateID");
+Interactions interactions1 = buffer.getInteractions(update);
 ```

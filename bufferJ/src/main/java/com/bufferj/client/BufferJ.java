@@ -9,6 +9,7 @@ import com.bufferj.entity.Error;
 import com.bufferj.entity.Update;
 import com.bufferj.entity.Updates;
 import com.bufferj.entity.User;
+import com.bufferj.util.HttpUtil;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
 /**
@@ -136,7 +138,30 @@ public class BufferJ {
         return getSchedules(profile);
     }
 
-    // TODO POST /profiles/:id/schedules/update
+    public void updateSchedules(String profileId, List<Schedule> schedules) throws IOException, BufferJException {
+        if (profileId == null) {
+            return;
+        }
+
+        URI uri = createUri("profiles/" + profileId + "/schedules/update");
+        List<NameValuePair> formData = HttpUtil.createFormData(schedules);
+
+        HttpClient.getInstance().post(uri, formData);
+    }
+
+    public void updateSchedules(Profile profile, List<Schedule> schedules) throws IOException, BufferJException {
+        if (profile == null || profile.getId() == null) {
+            return;
+        }
+
+        updateSchedules(profile.getId(), schedules);
+    }
+
+    public void updateSchedules(Service service, List<Schedule> schedules) throws IOException, BufferJException {
+        Profile profile = getProfile(service);
+        updateSchedules(profile, schedules);
+    }
+
     private Update getUpdate(String updateId) throws IOException, BufferJException {
         if (updateId == null) {
             return null;
@@ -175,7 +200,7 @@ public class BufferJ {
             return null;
         }
 
-        return getPendingUpdates(profile);
+        return getPendingUpdates(profile.getId());
     }
 
     public Updates getPendingUpdates(Service service) throws IOException, BufferJException {
@@ -197,7 +222,7 @@ public class BufferJ {
             return null;
         }
 
-        return getSentUpdates(profile);
+        return getSentUpdates(profile.getId());
     }
 
     public Updates getSentUpdates(Service service) throws IOException, BufferJException {
@@ -205,7 +230,7 @@ public class BufferJ {
         return getSentUpdates(profile);
     }
 
-    public Interactions getUpdateInteractions(String updateId) throws IOException, BufferJException {
+    public Interactions getInteractions(String updateId) throws IOException, BufferJException {
         if (updateId == null) {
             return null;
         }
@@ -220,12 +245,12 @@ public class BufferJ {
         return (Interactions) result;
     }
 
-    public Interactions getUpdateInteractions(Update update) throws IOException, BufferJException {
+    public Interactions getInteractions(Update update) throws IOException, BufferJException {
         if (update == null || update.getId() == null) {
             return null;
         }
 
-        return getUpdateInteractions(update.getId());
+        return getInteractions(update.getId());
     }
 
     private URI createUri(String path) {
