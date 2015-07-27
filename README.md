@@ -126,3 +126,10 @@ buffer.destroy(update);
 buffer.moveToTop("someUpdateID");
 buffer.moveToTop(update);
 ```
+
+#### POST /profiles/:id/updates/shuffle
+```java
+buffer.shuffle("someProfileID");
+buffer.shuffle(profile);
+buffer.shuffle(Service.LINKEDIN);
+```

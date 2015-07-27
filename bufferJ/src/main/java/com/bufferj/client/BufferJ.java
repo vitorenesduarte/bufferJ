@@ -262,6 +262,20 @@ public class BufferJ {
         moveToTop(update.getId());
     }
     
+    public void shuffle(String profileId) throws IOException, BufferJException {
+        URI uri = createUri("profiles/" + profileId + "/updates/shuffle");
+        HttpClient.getInstance().post(uri);
+    }
+    
+    public void shuffle(Profile profile) throws IOException, BufferJException {
+        shuffle(profile.getId());
+    }
+    
+    public void shuffle(Service service) throws IOException, BufferJException {
+        Profile profile = getProfile(service);
+        shuffle(profile);
+    }
+    
     private URI createUri(String path, String... params) {
         URI uri = null;
         
