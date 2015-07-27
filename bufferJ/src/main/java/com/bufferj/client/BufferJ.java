@@ -73,10 +73,6 @@ public class BufferJ {
     }
 
     public Profile getProfile(String profileId) throws IOException, BufferJException {
-        if (profileId == null) {
-            return null;
-        }
-
         URI uri = createUri("profiles/" + profileId);
 
         String response = HttpClient.getInstance().get(uri);
@@ -116,10 +112,6 @@ public class BufferJ {
     }
 
     public List<Schedule> getSchedules(String profileId) throws IOException, BufferJException {
-        if (profileId == null) {
-            return null;
-        }
-
         URI uri = createUri("profiles/" + profileId + "/schedules");
 
         String response = HttpClient.getInstance().get(uri);
@@ -131,10 +123,6 @@ public class BufferJ {
     }
 
     public List<Schedule> getSchedules(Profile profile) throws IOException, BufferJException {
-        if (profile == null || profile.getId() == null) {
-            return null;
-        }
-
         return getSchedules(profile.getId());
     }
 
@@ -144,10 +132,6 @@ public class BufferJ {
     }
 
     public void updateSchedules(String profileId, List<Schedule> schedules) throws IOException, BufferJException {
-        if (profileId == null) {
-            return;
-        }
-
         URI uri = createUri("profiles/" + profileId + "/schedules/update");
         List<NameValuePair> formData = HttpUtil.createFormData(schedules);
 
@@ -155,10 +139,6 @@ public class BufferJ {
     }
 
     public void updateSchedules(Profile profile, List<Schedule> schedules) throws IOException, BufferJException {
-        if (profile == null || profile.getId() == null) {
-            return;
-        }
-
         updateSchedules(profile.getId(), schedules);
     }
 
@@ -177,19 +157,11 @@ public class BufferJ {
     }
 
     public Updates getPendingUpdates(String profileId) throws IOException, BufferJException {
-        if (profileId == null) {
-            return null;
-        }
-
         URI uri = createUri("profiles/" + profileId + "/updates/pending");
         return getUpdates(uri);
     }
 
     public Updates getPendingUpdates(Profile profile) throws IOException, BufferJException {
-        if (profile == null || profile.getId() == null) {
-            return null;
-        }
-
         return getPendingUpdates(profile.getId());
     }
 
@@ -199,19 +171,11 @@ public class BufferJ {
     }
 
     public Updates getSentUpdates(String profileId) throws IOException, BufferJException {
-        if (profileId == null) {
-            return null;
-        }
-
         URI uri = createUri("profiles/" + profileId + "/updates/sent");
         return getUpdates(uri);
     }
 
     public Updates getSentUpdates(Profile profile) throws IOException, BufferJException {
-        if (profile == null || profile.getId() == null) {
-            return null;
-        }
-
         return getSentUpdates(profile.getId());
     }
 
@@ -221,10 +185,6 @@ public class BufferJ {
     }
 
     public Update getUpdate(String updateId) throws IOException, BufferJException {
-        if (updateId == null) {
-            return null;
-        }
-
         URI uri = createUri("updates/" + updateId);
 
         String response = HttpClient.getInstance().get(uri);
@@ -236,12 +196,8 @@ public class BufferJ {
     }
 
     public Interactions getInteractions(String updateId, Event event) throws IOException, BufferJException {
-        if (updateId == null || event == null) {
-            return null;
-        }
-
         URI uri = createUri("updates/" + updateId + "/interactions", "event", event.getName());
-        
+
         String response = HttpClient.getInstance().get(uri);
         Object result = JsonManager.fromJson(response, Interactions.class);
 
@@ -251,10 +207,6 @@ public class BufferJ {
     }
 
     public Interactions getInteractions(Update update, Event event) throws IOException, BufferJException {
-        if (update == null || update.getId() == null) {
-            return null;
-        }
-
         return getInteractions(update.getId(), event);
     }
 
@@ -271,10 +223,6 @@ public class BufferJ {
     }
 
     public Update editUpdate(String updateId, CreateOrEditUpdates update) throws IOException, BufferJException {
-        if (updateId == null) {
-            return null;
-        }
-
         URI uri = createUri("updates/" + updateId + "/update");
         List<NameValuePair> formData = HttpUtil.createFormData(update);
 
@@ -287,19 +235,11 @@ public class BufferJ {
     }
 
     public void share(String updateId) throws IOException {
-        if (updateId == null) {
-            return;
-        }
-
         URI uri = createUri("updates/" + updateId + "/share");
         HttpClient.getInstance().post(uri);
     }
 
     public void share(Update update) throws IOException {
-        if (update == null || update.getId() == null) {
-            return;
-        }
-
         share(update.getId());
     }
 
