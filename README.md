@@ -89,18 +89,22 @@ Interactions interactions0 = buffer.getInteractions("someUpdateID", Event.COMMEN
 Interactions interactions1 = buffer.getInteractions(update, EVENT.RETWEETS);
 ```
 
-#### POST /updates/create & POST /updates/:id/update
+#### POST /updates/create
 ```java
-CreateOrEditUpdates createUpdates = new CreateOrEditUpdates();
+CreateUpdates createUpdates = new CreateUpdates();
 createUpdates.addProfile(profile);
 createUpdates.setText("hello world");
-List<Update> updatesCreated = buffer.createUpdates(createUpdates);
-// only one update will be created since we only added one media profile
 
+List<Update> updatesCreated = buffer.create(createUpdates);
+// only one update will be created since we only added one media profile
+```
+
+#### POST /updates/:id/update
+```java
 for (int i = 0; i < updatesCreated.size(); i++) {
-    CreateOrEditUpdates editUpdate = new CreateOrEditUpdates();
+    EditUpdate editUpdate = new EditUpdate();
     editUpdate.setText("shangri la " + i);
-    buffer.editUpdate(updatesCreated.get(i).getId(), editUpdate);
+    buffer.edit(updatesCreated.get(i).getId(), editUpdate);
 }
 ```
 

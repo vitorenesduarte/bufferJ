@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author Vitor Enes <vitorenesduarte at gmail.com>
  */
-public class CreateOrEditUpdates {
+public class CreateUpdates {
 
     private List<Profile> profiles;
     private String text;
@@ -23,7 +23,7 @@ public class CreateOrEditUpdates {
     private Boolean attachment;
     private Long scheduledAt;
 
-    public CreateOrEditUpdates() {
+    public CreateUpdates() {
         this.profiles = new ArrayList<>();
     }
 

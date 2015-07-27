@@ -1,7 +1,8 @@
 package com.bufferj.client;
 
 import com.bufferj.client.util.Service;
-import com.bufferj.client.util.CreateOrEditUpdates;
+import com.bufferj.client.util.CreateUpdates;
+import com.bufferj.client.util.EditUpdate;
 import com.bufferj.entity.Interactions;
 import com.bufferj.util.JsonManager;
 import com.bufferj.util.HttpClient;
@@ -210,7 +211,7 @@ public class BufferJ {
         return getInteractions(update.getId(), event);
     }
 
-    public List<Update> createUpdates(CreateOrEditUpdates updates) throws IOException, BufferJException {
+    public List<Update> create(CreateUpdates updates) throws IOException, BufferJException {
         URI uri = createUri("updates/create");
         List<NameValuePair> formData = HttpUtil.createFormData(updates);
 
@@ -222,7 +223,7 @@ public class BufferJ {
         return ((ResponseWithUpdates) result).getUpdates();
     }
 
-    public Update editUpdate(String updateId, CreateOrEditUpdates update) throws IOException, BufferJException {
+    public Update edit(String updateId, EditUpdate update) throws IOException, BufferJException {
         URI uri = createUri("updates/" + updateId + "/update");
         List<NameValuePair> formData = HttpUtil.createFormData(update);
 

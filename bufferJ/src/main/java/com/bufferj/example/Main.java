@@ -3,7 +3,8 @@ package com.bufferj.example;
 import com.bufferj.client.BufferJ;
 import com.bufferj.client.BufferJException;
 import com.bufferj.client.util.Service;
-import com.bufferj.client.util.CreateOrEditUpdates;
+import com.bufferj.client.util.CreateUpdates;
+import com.bufferj.client.util.EditUpdate;
 import com.bufferj.client.util.Event;
 import com.bufferj.entity.Day;
 import com.bufferj.entity.Interactions;
@@ -50,16 +51,17 @@ public class Main {
             schedules = buffer.getSchedules(Service.LINKEDIN);
             System.out.println(schedules);
 
-            CreateOrEditUpdates createUpdates = new CreateOrEditUpdates();
+            CreateUpdates createUpdates = new CreateUpdates();
             createUpdates.addProfile(profiles.get(0));
             createUpdates.setText("hello world!!");
+            // only one update will be created since we only added one media profile
 
-            List<Update> updatesCreated = buffer.createUpdates(createUpdates);
+            List<Update> updatesCreated = buffer.create(createUpdates);
             for (int i = 0; i < updatesCreated.size(); i++) {
                 System.out.println(updatesCreated.get(i));
-                CreateOrEditUpdates editUpdate = new CreateOrEditUpdates();
+                EditUpdate editUpdate = new EditUpdate();
                 editUpdate.setText("shangri la " + i);
-                buffer.editUpdate(updatesCreated.get(i).getId(), editUpdate);
+                buffer.edit(updatesCreated.get(i).getId(), editUpdate);
             }
 
             for (Service service : services) {

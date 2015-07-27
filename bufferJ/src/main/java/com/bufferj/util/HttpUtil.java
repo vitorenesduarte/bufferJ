@@ -1,6 +1,7 @@
 package com.bufferj.util;
 
-import com.bufferj.client.util.CreateOrEditUpdates;
+import com.bufferj.client.util.CreateUpdates;
+import com.bufferj.client.util.EditUpdate;
 import com.bufferj.entity.Profile;
 import com.bufferj.entity.Schedule;
 import java.util.ArrayList;
@@ -32,61 +33,96 @@ public class HttpUtil {
         return formData;
     }
 
-    public static List<NameValuePair> createFormData(CreateOrEditUpdates update) {
+    // this and the next method should be refactored - do not repeat code (maybe with an interface)
+    public static List<NameValuePair> createFormData(CreateUpdates updates) {
         List<NameValuePair> formData = new ArrayList<>();
-        
-        if(update.getProfiles() != null){
-            for(Profile profile : update.getProfiles()){
-                if(profile.getId() != null){
+
+        if (updates.getProfiles() != null) {
+            for (Profile profile : updates.getProfiles()) {
+                if (profile.getId() != null) {
                     formData.add(new BasicNameValuePair("profile_ids[]", profile.getId()));
                 }
             }
         }
-        
-        if(update.getText() != null){
+
+        if (updates.getText() != null) {
+            formData.add(new BasicNameValuePair("text", updates.getText()));
+        }
+
+        if (updates.getShorten() != null) {
+            formData.add(new BasicNameValuePair("shorten", updates.getShorten().toString()));
+        }
+
+        if (updates.getNow() != null) {
+            formData.add(new BasicNameValuePair("now", updates.getNow().toString()));
+        }
+
+        if (updates.getTop() != null) {
+            formData.add(new BasicNameValuePair("top", updates.getTop().toString()));
+        }
+
+        if (updates.getMediaLink() != null) {
+            formData.add(new BasicNameValuePair("media[link]", updates.getMediaLink()));
+        }
+
+        if (updates.getMediaDescription() != null) {
+            formData.add(new BasicNameValuePair("media[description]", updates.getMediaDescription()));
+        }
+
+        if (updates.getMediaTitle() != null) {
+            formData.add(new BasicNameValuePair("media[title]", updates.getMediaTitle()));
+        }
+
+        if (updates.getMediaPicture() != null) {
+            formData.add(new BasicNameValuePair("media[picture]", updates.getMediaPicture()));
+        }
+
+        if (updates.getMediaThumbnail() != null) {
+            formData.add(new BasicNameValuePair("media[thumbnail]", updates.getMediaThumbnail()));
+        }
+
+        if (updates.getAttachment() != null) {
+            formData.add(new BasicNameValuePair("attachment", updates.getAttachment().toString()));
+        }
+
+        if (updates.getScheduledAt() != null) {
+            formData.add(new BasicNameValuePair("scheduled_at", updates.getScheduledAt().toString()));
+        }
+
+        return formData;
+    }
+
+    public static List<NameValuePair> createFormData(EditUpdate update) {
+        List<NameValuePair> formData = new ArrayList<>();
+
+        if (update.getText() != null) {
             formData.add(new BasicNameValuePair("text", update.getText()));
         }
-        
-        if(update.getShorten() != null){
-            formData.add(new BasicNameValuePair("shorten", update.getShorten().toString()));
-        }
-        
-        if(update.getNow() != null){
-            formData.add(new BasicNameValuePair("now", update.getNow().toString()));
-        }
 
-        if(update.getTop() != null){
-            formData.add(new BasicNameValuePair("top", update.getTop().toString()));
-        }
-
-        if(update.getMediaLink() != null){
+        if (update.getMediaLink() != null) {
             formData.add(new BasicNameValuePair("media[link]", update.getMediaLink()));
         }
-        
-        if(update.getMediaDescription()!= null){
+
+        if (update.getMediaDescription() != null) {
             formData.add(new BasicNameValuePair("media[description]", update.getMediaDescription()));
         }
-        
-        if(update.getMediaTitle() != null){
+
+        if (update.getMediaTitle() != null) {
             formData.add(new BasicNameValuePair("media[title]", update.getMediaTitle()));
         }
-        
-        if(update.getMediaPicture() != null){
+
+        if (update.getMediaPicture() != null) {
             formData.add(new BasicNameValuePair("media[picture]", update.getMediaPicture()));
         }
-        
-        if(update.getMediaThumbnail()!= null){
+
+        if (update.getMediaThumbnail() != null) {
             formData.add(new BasicNameValuePair("media[thumbnail]", update.getMediaThumbnail()));
         }
-        
-        if(update.getAttachment() != null){
-            formData.add(new BasicNameValuePair("attachment", update.getAttachment().toString()));
-        }
-        
-        if(update.getScheduledAt() != null){
+
+        if (update.getScheduledAt() != null) {
             formData.add(new BasicNameValuePair("scheduled_at", update.getScheduledAt().toString()));
         }
-        
+
         return formData;
     }
 }
