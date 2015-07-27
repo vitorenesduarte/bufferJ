@@ -113,3 +113,16 @@ for (int i = 0; i < updatesCreated.size(); i++) {
 buffer.share("someUpdateID");
 buffer.share(update);
 ```
+
+
+#### POST /updates/:id/destroy
+```java
+buffer.destroy("someUpdateID");
+buffer.destroy(update);
+```
+
+#### POST /updates/:id/move_to_top
+```java
+buffer.moveToTop("someUpdateID");
+buffer.moveToTop(update);
+```
