@@ -86,7 +86,7 @@ enum Event {
 
 ```java
 Interactions interactions0 = buffer.getInteractions("someUpdateID", Event.COMMENTS);
-Interactions interactions1 = buffer.getInteractions(update, EVENT.RETWEETS);
+Interactions interactions1 = buffer.getInteractions(update, Event.RETWEETS);
 ```
 
 #### POST /updates/create
