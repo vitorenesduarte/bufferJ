@@ -138,4 +138,5 @@ public class CreateUpdates {
 	public void setMediaPhoto(String mediaPhoto) {
 		this.mediaPhoto = mediaPhoto;
 	}
+    
 }
