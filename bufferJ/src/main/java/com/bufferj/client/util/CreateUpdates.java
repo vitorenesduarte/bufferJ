@@ -22,7 +22,8 @@ public class CreateUpdates {
     private String mediaThumbnail;
     private Boolean attachment;
     private Long scheduledAt;
-
+    private String mediaPhoto;
+    
     public CreateUpdates() {
         this.profiles = new ArrayList<>();
     }
@@ -130,4 +131,11 @@ public class CreateUpdates {
     public void setScheduledAt(Long scheduledAt) {
         this.scheduledAt = scheduledAt;
     }
+	public String getMediaPhoto() {
+		return mediaPhoto;
+	}
+
+	public void setMediaPhoto(String mediaPhoto) {
+		this.mediaPhoto = mediaPhoto;
+	}
 }
