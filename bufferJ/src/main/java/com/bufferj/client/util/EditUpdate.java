@@ -18,7 +18,8 @@ public class EditUpdate {
     private String mediaPicture;
     private String mediaThumbnail;
     private Long scheduledAt;
-
+    private String mediaPhoto;
+    
     public String getText() {
         return text;
     }
@@ -74,4 +75,11 @@ public class EditUpdate {
     public void setScheduledAt(Long scheduledAt) {
         this.scheduledAt = scheduledAt;
     }
+    public String getMediaPhoto() {
+		return mediaPhoto;
+	}
+
+	public void setMediaPhoto(String mediaPhoto) {
+		this.mediaPhoto = mediaPhoto;
+	}
 }

@@ -89,6 +89,9 @@ public class HttpUtil {
             formData.add(new BasicNameValuePair("scheduled_at", updates.getScheduledAt().toString()));
         }
 
+        if (updates.getMediaPhoto() != null) {
+            formData.add(new BasicNameValuePair("media[photo]", updates.getMediaPhoto().toString()));
+        }
         return formData;
     }
 
@@ -122,7 +125,9 @@ public class HttpUtil {
         if (update.getScheduledAt() != null) {
             formData.add(new BasicNameValuePair("scheduled_at", update.getScheduledAt().toString()));
         }
-
+        if (update.getMediaPhoto() != null) {
+            formData.add(new BasicNameValuePair("media[photo]", updates.getMediaPhoto().toString()));
+        }
         return formData;
     }
 }
