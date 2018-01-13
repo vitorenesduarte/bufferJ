@@ -36,19 +36,19 @@ public class Profile {
         this.avatar = avatar;
     }
 
-    public String getFormatted_username() {
+    public String getFormattedUsername() {
         return formatted_username;
     }
 
-    public void setFormatted_username(String formatted_username) {
-        this.formatted_username = formatted_username;
+    public void setFormattedUsername(String formattedUsername) {
+        this.formatted_username = formattedUsername;
     }
 
-    public String getService_username() {
+    public String getServiceUsername() {
         return service_username;
     }
 
-    public void setService_username(String service_username) {
-        this.service_username = service_username;
+    public void setServiceUsername(String serviceUsername) {
+        this.service_username = serviceUsername;
     }
 }
